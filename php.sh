@@ -1,13 +1,21 @@
 #!/bin/bash
 
-#
-
-phppackage="php-7.3.11.tar.gz"
+phppackage="php-7.3.22.tar.gz"
 php_install_package_dir=${phppackage%%.tar*}
 
 
 libzip_package="libzip-1.5.2.tar.gz"
-libzip_package_dir=${libzip_package%%.tar*} 
+libzip_package_dir=${libzip_package%%.tar*}
+
+if [ ! -f ${phppackage} ]
+then
+    sleep 1
+    echo -e "\n------下载php安装包------\n"
+    wget https://www.php.net/distributions/php-7.3.22.tar.gz
+fi
+
+
+
 sleep 1
 echo -e "\n------解压开始------\n"
 if [ -d $php_install_package_dir ]
@@ -75,7 +83,6 @@ ldconfig -v
 --with-jpeg-dir \
 --with-png-dir  \
 --with-freetype-dir \
-#--enable-gd-native-ttf \
 --with-mcrypt=/usr/local/libmcrypt \
 --enable-mysqlnd \
 --with-mysqli=mysqlnd \
@@ -86,6 +93,7 @@ ldconfig -v
 --enable-zip \
 --enable-mbstring \
 #--with-mcrypt \
+#--enable-gd-native-ttf \
 
 # php7.2 以后不支持  with-mcrypt, --enable-gd-native-ttf 这两个参数，需要去掉
 
