@@ -14,9 +14,23 @@ libzip_package_download_url="https://libzip.org/download/libzip-1.5.2.tar.gz"
 libzip_package_dir=${libzip_package%%.tar*}
 
 
+cmake_package="cmake-3.17.5.tar.gz"
+cmake_package_download_url="https://github.com/Kitware/CMake/releases/download/v3.17.5/cmake-3.17.5.tar.gz"
+cmake_package_dir=${cmake_package%%.tar*}
+
+
 . ./function.sh
 
 yumBaseModule
+
+isPackageAndWgetAndTar   ${cmake_package}   ${cmake_package_download_url}
+cd  ${cmake_package_dir}
+./bootstrap
+make && make install
+cd $homepath
+
+
+
 yum remove -y libzip
 isPackageAndWgetAndTar   ${libzip_package} ${libzip_package_download_url}
 cd ${libzip_package_dir}
