@@ -1,64 +1,36 @@
 #!/bin/bash
 
+
+homepath=$(pwd)
+
 phppackage="php-7.3.22.tar.gz"
+phppackage_download_url="https://www.php.net/distributions/php-7.3.22.tar.gz"
 php_install_package_dir=${phppackage%%.tar*}
 
 
+
 libzip_package="libzip-1.5.2.tar.gz"
+libzip_package_download_url="https://libzip.org/download/libzip-1.5.2.tar.gz"
 libzip_package_dir=${libzip_package%%.tar*}
 
-if [ ! -f ${phppackage} ]
-then
-    sleep 1
-    echo -e "\n------下载php安装包------\n"
-    wget https://www.php.net/distributions/php-7.3.22.tar.gz
-fi
 
+. ./function.sh
 
-
-sleep 1
-echo -e "\n------解压开始------\n"
-if [ -d $php_install_package_dir ]
-then
-	rm -rf $php_install_package_dir
-fi
-
-tar -zxvf $phppackage
-
-echo -e "\n------解压成功------\n"
-
-sleep 2
-
-echo  -e "\n -------开始编译php-------\n"
-
-if [ ! -d $php_install_package_dir ]
-then
-    echo  -e "\n-----${php_install_package_dir}文件夹不存在------\n"
-    exit
-fi
-
-
-yum -y install gcc gcc-c++ openssl openssl-devel  zlib zlib-devel libxml2-devel bzip2 bzip2-devel curl-devel freetype-devel libjpeg-devel libpng libpng-devel
-
-if [ ! -f ${libzip_package} ]
-then
-	wget https://libzip.org/download/libzip-1.5.2.tar.gz
-fi
-
-
-if [ ! -d $libzip_package_dir ]
-then
-  tar -zxvf  ${libzip_package}
-  yum remove -y libzip
+yumBaseModule
+yum remove -y libzip
+isPackageAndWgetAndTar   ${libzip_package} ${libzip_package_download_url}
 cd ${libzip_package_dir}
-  mkdir bulid
-  cd bulid
-  cmake ..
-  make && make install
-  cd  ../../$php_install_package_dir
-else
-  cd $php_install_package_dir
-fi
+mkdir bulid
+cd bulid
+cmake ..
+make && make install
+cd $homepath
+
+
+
+isPackageAndWgetAndTar   ${phppackage}   ${phppackage_download_url}
+
+
 
 #--------解决执行configure报错error: off_t undefined; check your library configuration
 echo '/usr/local/lib64

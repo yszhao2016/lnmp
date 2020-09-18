@@ -70,7 +70,7 @@ createGroup()
 #base  module
 yumBaseModule()
 {
-    yum -y install gcc gcc-c++ zlib zlib-devel openssl openssl-devel pcre-devel
+    yum -y install gcc gcc-c++ zlib zlib-devel openssl openssl-devel pcre-devel libxml2-devel bzip2 bzip2-devel curl-devel freetype-devel libjpeg-devel libpng libpng-devel
 }
 
 
