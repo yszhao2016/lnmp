@@ -42,6 +42,31 @@ isPackageAndWgetAndTar()
 }
 
 
+
+#创建用户
+createUser()
+{
+    #create user if not exists
+    egrep "^$1" /etc/passwd >& /dev/null
+    if [ $? -ne 0 ]
+    then
+        useradd $1 -g $2 -s /sbin/nologin -M
+    fi
+}
+
+#创建用户组
+createGroup()
+{
+    #create group if not exists
+    egrep "^$1" /etc/group >& /dev/null
+    if [ $? -ne 0 ]
+    then
+        groupadd $1
+    fi
+}
+
+
+
 #base  module
 yumBaseModule()
 {

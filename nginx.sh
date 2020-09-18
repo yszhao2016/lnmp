@@ -3,22 +3,16 @@ user="www"
 group="www"
 nginxpackage="nginx-1.18.0.tar.gz"
 nginx_installpackage_dir=${nginxpackage%%.tar*}
+nginx_download_url="http://nginx.org/download/nginx-1.18.0.tar.gz"
 
 source ./function.sh
 
-#create group if not exists
-egrep "^$group" /etc/group >& /dev/null
-if [ $? -ne 0 ]
-then
-    groupadd $group
-fi
 
-#create user if not exists
-egrep "^$user" /etc/passwd >& /dev/null
-if [ $? -ne 0 ]
-then
-    useradd ${user} -g ${group} -s /sbin/nologin -M
-fi
+yumBaseModule
+isPackageAndWgetAndTar   ${nginxpackage}  ${nginx_download_url}
+createUser www www
+
+
 
 
 
