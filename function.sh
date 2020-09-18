@@ -12,15 +12,15 @@ isCommandAndInstall()
 #解压 支持 .gz  bz2 zip
 unpack()
 {
-    if [ ${1##*.} eq bz2 ]
+    if [ ${1##*.} == "bz2" ]
     then
           isCommandAndInstall tar
          tar -jxvf $1
-    else if [ ${1##*.} eq gz ]
+    elif [ ${1##*.} == "gz" ]
     then
         isCommandAndInstall tar
         tar -zxvf $1
-    else if [${1##*.} eq zip ]
+    elif [ ${1##*.} == "zip" ]
     then
         isCommandAndInstall unzip
         isCommandAndInstall zip
@@ -33,7 +33,7 @@ unpack()
 # param2  downloadurl  http://nginx.org/download/nginx-1.18.0.tar.gz
 isPackageAndWgetAndTar()
 {
-    if[ ! -f $1 ]
+    if [ ! -f $1 ]
     then
         isCommandAndInstall wget
         wget $2

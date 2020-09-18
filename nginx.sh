@@ -14,7 +14,7 @@ createUser www www
 
 
 
-
+cd ${nginx_installpackage_dir}
 
 ./configure --prefix=/usr/local/nginx \
 --with-http_stub_status_module \
